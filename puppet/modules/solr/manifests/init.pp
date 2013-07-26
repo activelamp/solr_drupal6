@@ -4,7 +4,7 @@
 # from scratch.
 #
 # IMPORTANT: Works only with Ubuntu as of now. Other platform
-# support is most welcome. 
+# support is most welcome.
 #
 # Parameters:
 #  source_url - mirror to fetch the tar/gzipped file
@@ -19,7 +19,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class solr (
-      $source_url="http://apache.mirrors.lucidnetworks.net/lucene/solr/3.6.2/apache-solr-3.6.2.tgz",
+      $source_url="http://archive.apache.org/dist/lucene/solr/3.6.2/apache-solr-3.6.2.tgz",
       $home_dir="/usr/share/solr",
       $package="apache-solr-3.6.2",
       $solr_data_dir="/var/lib/solr/data",
@@ -28,7 +28,7 @@ class solr (
       ) {
 
   include solr::params
-  
+
   class { "solr::install":
     source_url => $source_url,
     home_dir => $home_dir,
@@ -37,7 +37,7 @@ class solr (
     cores => $cores,
     tomcat_connector_port => $tomcat_connector_port,
   }
-  
+
 }
-  
+
 

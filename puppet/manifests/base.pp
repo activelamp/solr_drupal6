@@ -1,5 +1,5 @@
 class { "solr":
-        source_url => "http://apache.mirrors.lucidnetworks.net/lucene/solr/3.6.2/apache-solr-3.6.2.tgz",
+        source_url => "http://archive.apache.org/dist/lucene/solr/3.6.2/apache-solr-3.6.2.tgz",
         home_dir => "/usr/share/solr",
         package => "apache-solr-3.6.2",
         solr_data_dir => "/var/lib/solr/data",
@@ -100,7 +100,7 @@ class { "solr":
     owner   => "tomcat6",
     notify  => Service["tomcat6"],
   }
-  
+
   file { "/usr/share/solr/cor/conf/spellings.txt":
     ensure => present,
     source  => "/vagrant/cor/spellings.txt",
