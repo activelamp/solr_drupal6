@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
@@ -21,16 +21,26 @@ Vagrant::Config.run do |config|
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
   # config.vm.network :hostonly, "192.168.33.10"
+  config.vm.network :private_network, ip: "33.33.33.101"
 
   # Assign this VM to a bridged network, allowing you to connect directly to a
   # network using the host's network device. This makes the VM appear as another
   # physical device on your network.
   # Memory setting for Vagrant >= 0.90
-  config.vm.customize ["modifyvm", :id, "--memory", "1024"]
+  config.vm.provider :virtualbox do |vb|
+    # Don't boot with headless mode
+    #   vb.gui = true
+    #
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id,
+                    "--memory", "1024",
+                    "--natdnshostresolver1", "on",
+                    "--cpus", "1"]
+    end
 
   # Forward a port from the guest to the host, which allows for outside
   # computers to access the VM, whereas host only networking does not.
-  config.vm.forward_port 8983, 8983
+  config.vm.network :forwarded_port, guest: 8983, host: 8983
 
   # Share an additional folder to the guest VM. The first argument is
   # an identifier, the second is the path on the guest to mount the
@@ -38,7 +48,8 @@ Vagrant::Config.run do |config|
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
   #config.vm.share_folder "v-root", "/vagrant", ".",:extra => 'dmode=777,fmode=666'
   #config.vm.share_folder "v-root", "/vagrant", ".",:nfs => true
-   config.vm.share_folder("vagrant-root", "/vagrant", ".", :extra => 'dmode=777,fmode=666', :nfs => true)
+  # config.vm.synced_folder ".", "/vagrant", :nfs =>true, :mount_options => ['dmode=777', 'fmode=666']
+   # config.vm.share_folder("vagrant-root", "/vagrant", ".", :extra => 'dmode=777,fmode=666', :nfs => true)
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in
@@ -99,6 +110,5 @@ Vagrant::Config.run do |config|
   # chef-validator, unless you changed the configuration.
   #
   #   chef.validation_client_name = "ORGNAME-validator"
-  
-  config.vm.network :hostonly, "33.33.33.101"
+
 end
