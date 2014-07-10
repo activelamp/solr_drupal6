@@ -16,7 +16,7 @@
          version="1.2" is Solr's version number for the schema syntax and semantics.  It should
          not normally be changed by applications.
          1.0: multiValued attribute did not exist, all fields are multiValued by nature
-         1.1: multiValued attribute introduced, false by default 
+         1.1: multiValued attribute introduced, false by default
          1.2: omitTermFreqAndPositions attribute introduced, true by default except for text fields.
        -->
   <types>
@@ -27,11 +27,12 @@
          Class names starting with "solr" refer to java classes in the
        org.apache.solr.analysis package.
     -->
-    
+
     <!-- Add geolocation types -->
     <fieldType name="point" class="solr.PointType" dimension="2" subFieldSuffix="_d"/>
-  <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
-  <fieldtype name="geohash" class="solr.GeoHashField"/>
+	<fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
+	<fieldtype name="geohash" class="solr.GeoHashField"/>
+
 
     <!-- The StrField type is not analyzed, but indexed/stored verbatim.
        - StrField and TextField support an optional compressThreshold which
@@ -209,7 +210,7 @@
     </fieldType>
 
 
-    <!-- Edge N gram type - for example for matching against queries with results 
+    <!-- Edge N gram type - for example for matching against queries with results
         KeywordTokenizer leaves input string intact as a single term.
         see: http://www.lucidimagination.com/blog/2009/09/08/auto-suggest-from-popular-queries-using-edgengrams/
    -->
@@ -225,17 +226,17 @@
      </analyzer>
     </fieldType>
    <!--  Setup simple analysis for spell checking -->
-    
+
    <fieldType name="textSpell" class="solr.TextField" positionIncrementGap="100">
      <analyzer>
        <tokenizer class="solr.StandardTokenizerFactory" />
        <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
        <filter class="solr.LengthFilterFactory" min="4" max="20" />
-       <filter class="solr.LowerCaseFilterFactory" /> 
-       <filter class="solr.RemoveDuplicatesTokenFilterFactory" /> 
+       <filter class="solr.LowerCaseFilterFactory" />
+       <filter class="solr.RemoveDuplicatesTokenFilterFactory" />
      </analyzer>
    </fieldType>
-  
+
     <!-- This is an example of using the KeywordTokenizer along
          With various TokenFilterFactories to produce a sortable field
          that does not include some properties of the source text
@@ -347,7 +348,7 @@
    <copyField source="name" dest="sort_name"/>
    <!-- Copy terms to a single field that contains all taxonomy term names -->
    <copyField source="ts_vid_*" dest="taxonomy_names"/>
-  
+
    <!-- A set of fields to contain text extracted from tag contents which we
         can boost at query time. -->
    <field name="tags_h1" type="text" indexed="true" stored="false" omitNorms="true"/>
@@ -361,9 +362,9 @@
         when each document was indexed.-->
    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
 
-  <!-- This field is used to build the spellchecker index -->
+	<!-- This field is used to build the spellchecker index -->
    <field name="spell" type="textSpell" indexed="true" stored="true" multiValued="true"/>
-  
+
   <!-- copyField commands copy one field to another at the time a document
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
@@ -420,19 +421,19 @@
         Alternately, change the type="ignored" to some other type e.g. "text" if you want
         unknown fields indexed and/or stored by default -->
    <dynamicField name="*" type="ignored" multiValued="true" />
-   
-   
-   
+
+
+
    <!-- BACKWARDS COMPATIBILITY -->
    <!-- Here is where we store fields which are no longer used -->
-   
+
    <!-- Fields previously used for sorting -->
    <field name="stitle" type="string" indexed="true" stored="true"/>
    <field name="title_sort" type="sortString" indexed="true" stored="false"/>
 
    <field name="name_sort" type="sortString" indexed="true" stored="false"/>
-    
-    
+
+
    <!-- /BACKWARDS COMPATIBILITY -->
  </fields>
 
@@ -448,5 +449,3 @@
  <solrQueryParser defaultOperator="AND"/>
 
 </schema>
-
-
